@@ -5,7 +5,7 @@
   - spring.servlet.multipart.max-file-size - maximum allowed file size (2MB by default)
   - spring.cache.caffeine.spec=maximumSize - maximum allowed cache size (10 pictures by default; It is recommended to disable caching during stress testing - just set this value = 0)
   - core-pool-size - thread count in thread pool (8 threads by default)
-  - task-queue-capacity - maximum allowed task queue capacity (300 requests by default)
+  - task-queue-capacity - maximum allowed task queue capacity (400 requests by default)
 
   <h5> endpoint - picture/convert : </h5>
 
@@ -19,6 +19,7 @@
     <h5> proprety file settings: </h5>
 
     - test_image - image to be sent (/test_image.jpg by default)
-    - request_count - count of requests to be sent (300 requests by default)
+    - request_count - count of requests to be sent (400 requests by default)
     - interval_between_requests - interval between sending (0ms by default)
+    - test_time - performance measurement time (60 seconds by default)
 
