@@ -28,9 +28,9 @@ public class ValidatorTest {
     void nullFileTest() {
         // exception in proxy class -> validator exception was thrown
         assertAll(
-                () -> assertThrows(UndeclaredThrowableException.class, () -> controllerProxy.convert(null)),
-                () -> assertThrows(UndeclaredThrowableException.class, () -> controllerProxy.convert(
-                        new MockMultipartFile("inputFile", "test", null, new byte[0])))
+                () -> assertThrows(UndeclaredThrowableException.class, () -> controllerProxy.process(null, false, false, false)),
+                () -> assertThrows(UndeclaredThrowableException.class, () -> controllerProxy.process(
+                        new MockMultipartFile("inputFile", "test", null, new byte[0]), false, false, false))
         );
     }
 
@@ -38,12 +38,12 @@ public class ValidatorTest {
     void incorrectFormatsTest() {
         // exception in proxy class -> validator exception was thrown
         assertAll(
-                () -> assertThrows(UndeclaredThrowableException.class, () -> controllerProxy.convert(
-                        new MockMultipartFile("inputFile", "test", "not_jpg", new byte[0]))),
-                () -> assertThrows(UndeclaredThrowableException.class, () -> controllerProxy.convert(
-                        new MockMultipartFile("inputFile", "test", "psd", new byte[0]))),
-                () -> assertThrows(UndeclaredThrowableException.class, () -> controllerProxy.convert(
-                        new MockMultipartFile("inputFile", "test", "tiff", new byte[0])))
+                () -> assertThrows(UndeclaredThrowableException.class, () -> controllerProxy.process(
+                        new MockMultipartFile("inputFile", "test", "not_jpg", new byte[0]), false, false, false)),
+                () -> assertThrows(UndeclaredThrowableException.class, () -> controllerProxy.process(
+                        new MockMultipartFile("inputFile", "test", "psd", new byte[0]), false, false, false)),
+                () -> assertThrows(UndeclaredThrowableException.class, () -> controllerProxy.process(
+                        new MockMultipartFile("inputFile", "test", "tiff", new byte[0]), false, false, false))
         );
     }
 
@@ -51,12 +51,12 @@ public class ValidatorTest {
     void correctFormatsTest() {
         // exception in service -> validator exception was not thrown
         assertAll(
-                () -> assertThrows(NullPointerException.class, () -> controllerProxy.convert(
-                        new MockMultipartFile("inputFile", "test", "image/jpg", new byte[0]))),
-                () -> assertThrows(NullPointerException.class, () -> controllerProxy.convert(
-                        new MockMultipartFile("inputFile", "test", "image/jpeg", new byte[0]))),
-                () -> assertThrows(NullPointerException.class, () -> controllerProxy.convert(
-                        new MockMultipartFile("inputFile", "test", "image/jpe", new byte[0])))
+                () -> assertThrows(NullPointerException.class, () -> controllerProxy.process(
+                        new MockMultipartFile("inputFile", "test", "image/jpg", new byte[0]), false, false, false)),
+                () -> assertThrows(NullPointerException.class, () -> controllerProxy.process(
+                        new MockMultipartFile("inputFile", "test", "image/jpeg", new byte[0]), false, false, false)),
+                () -> assertThrows(NullPointerException.class, () -> controllerProxy.process(
+                        new MockMultipartFile("inputFile", "test", "image/jpe", new byte[0]), false, false, false))
         );
     }
 }

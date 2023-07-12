@@ -19,7 +19,7 @@ public class InputImageFileValidator {
     private final Set<String> supportedFormats = Set.of("jpg", "jpeg", "jpe");
 
     @SneakyThrows
-    @Before("execution(* convert(..))")
+    @Before("execution(* picture_processing_service.controllers.PictureController.process(..))")
     @SuppressWarnings("all")
     public void validateInputFile(JoinPoint jp) {
         Object file = jp.getArgs()[0];
