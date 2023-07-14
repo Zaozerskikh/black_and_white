@@ -5,6 +5,9 @@ import org.springframework.web.multipart.MultipartFile;
 import picture_processing_service.jpa.entities.Picture;
 
 public interface PictureProcessingService {
+    @SneakyThrows
+    byte[] processImage(MultipartFile inputImage, boolean blackAndWhite, boolean vingette, boolean blurBackground);
+
     byte[] convertToBlackAndWhite(byte[] inputImage, String ext);
 
     @SneakyThrows

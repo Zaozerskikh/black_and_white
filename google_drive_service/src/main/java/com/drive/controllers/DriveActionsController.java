@@ -25,8 +25,8 @@ public class DriveActionsController {
             throw new DriveAuthException("token does not exist");
         }
 
-        return ResponseEntity.ok(googleDriveService.getDriveFiles(
-                rawToken.toString(), "1hcUMwXphRUsOkkP7SKESGPbGJd5_kR6r"
+        return ResponseEntity.ok(googleDriveService.processBatch(
+                rawToken.toString(), "1hcUMwXphRUsOkkP7SKESGPbGJd5_kR6r", "test", true, true, true
         ));
     }
 }

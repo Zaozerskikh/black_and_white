@@ -13,6 +13,7 @@ import java.util.Base64;
 public class SenderWebClientConfig {
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String CLIENT_ID;
+
     @Value("${spring.security.oauth2.client.registration.google.client-secret}")
     private String CLIENT_SECRET;
 

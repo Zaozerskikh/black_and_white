@@ -22,6 +22,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorConvertOp;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -35,6 +36,34 @@ public class PictureProcessingServiceImpl implements PictureProcessingService {
 
     @Autowired
     private WebClient senderWebClient;
+
+    @Override
+    @SneakyThrows
+    @Cacheable("pictures")
+    public byte[] processImage(MultipartFile inputImage, boolean blackAndWhite, boolean vingette, boolean blurBackground) {
+        log.info("START PROCESSING");
+
+        byte[] image = Arrays.copyOf(inputImage.getBytes(), inputImage.getBytes().length);
+        String ext = inputImage.getContentType().substring(inputImage.getContentType().indexOf("/") + 1);
+
+        if (blurBackground) {
+            byte[] blurredImage = this.blurBackground(inputImage);
+            image = Arrays.copyOf(blurredImage, blurredImage.length);
+        }
+
+        if (blackAndWhite) {
+            byte[] bwImg = this.convertToBlackAndWhite(image, ext);
+            image = Arrays.copyOf(bwImg, bwImg.length);
+        }
+
+        if (vingette) {
+            byte[] vingettedImage = this.addVingette(image, ext);
+            image = Arrays.copyOf(vingettedImage, vingettedImage.length);
+        }
+
+        log.info("PROCESSING COMPLETED");
+        return image;
+    }
 
     @Override
     @SneakyThrows
