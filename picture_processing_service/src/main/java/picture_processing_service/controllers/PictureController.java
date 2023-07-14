@@ -38,6 +38,11 @@ public class PictureController {
         byte[] image = Arrays.copyOf(inputImage.getBytes(), inputImage.getBytes().length);
         String ext = inputImage.getContentType().substring(inputImage.getContentType().indexOf("/") + 1);
 
+        if (blurBackground) {
+            byte[] blurredImage = pictureProcessingService.blurBackground(inputImage);
+            image = Arrays.copyOf(blurredImage, blurredImage.length);
+        }
+
         if (blackAndWhite) {
             byte[] bwImg = pictureProcessingService.convertToBlackAndWhite(image, ext);
             image = Arrays.copyOf(bwImg, bwImg.length);
@@ -46,11 +51,6 @@ public class PictureController {
         if (vingette) {
             byte[] vingettedImage = pictureProcessingService.addVingette(image, ext);
             image = Arrays.copyOf(vingettedImage, vingettedImage.length);
-        }
-
-        if (blurBackground) {
-            byte[] blurredImage = pictureProcessingService.blurBackground(inputImage);
-            image = Arrays.copyOf(blurredImage, blurredImage.length);
         }
 
         log.info("PROCESSING COMPLETED");
