@@ -3,6 +3,7 @@ package picture_processing_service.controllers;
 import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,9 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 @RequestMapping("/pictures")
 public class PictureController {
+    @Value("${server.base_url}")
+    private String baseUrl;
+
     @Autowired
     private PictureProcessingService pictureProcessingService;
 
@@ -33,7 +37,7 @@ public class PictureController {
             @RequestParam(required = false, name = "vingette") boolean vingette,
             @RequestParam(required = false, name = "blur_background") boolean blurBackground) {
         byte[] processedImage = pictureProcessingService.processImage(inputImage, blackAndWhite, vingette, blurBackground);
-        return CompletableFuture.completedFuture(this.pictureProcessingService.savePicture(processedImage).getLink());
+        return CompletableFuture.completedFuture(baseUrl + "/pictures/get/" + this.pictureProcessingService.savePicture(processedImage).getLink());
     }
 
     @SneakyThrows

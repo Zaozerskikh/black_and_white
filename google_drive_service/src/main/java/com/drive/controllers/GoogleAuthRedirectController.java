@@ -2,7 +2,6 @@ package com.drive.controllers;
 
 import com.drive.enums.SessionKey;
 import com.drive.services.oauth_token_service.OauthTokenService;
-import com.drive.services.oauth_token_service.OauthTokenServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +29,12 @@ public class GoogleAuthRedirectController {
                 SessionKey.GOOGLE_OAUTH_TOKEN.toString(),
                 oauthTokenService.fetchToken(code, scopeWithPermissions)
         );
-        return "redirect:/files";
+
+        return "redirect:/processAll" +
+                "?source_folder_id=" + httpSession.getAttribute(SessionKey.SOURCE_FOLDER_ID.toString()).toString() +
+                "&output_folder_name=" + httpSession.getAttribute(SessionKey.OUTPUT_FOLDER_NAME.toString()).toString() +
+                "&bw=" + Boolean.parseBoolean(httpSession.getAttribute(SessionKey.BW.toString()).toString()) +
+                "&vingette=" + Boolean.parseBoolean(httpSession.getAttribute(SessionKey.VINGETTE.toString()).toString()) +
+                "&blur_background=" + Boolean.parseBoolean(httpSession.getAttribute(SessionKey.BLUR_BACKGROUND.toString()).toString());
     }
 }
