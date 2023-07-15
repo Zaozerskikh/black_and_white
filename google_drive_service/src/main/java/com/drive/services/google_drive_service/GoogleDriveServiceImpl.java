@@ -81,21 +81,29 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
                 ))
                 .forEach(image -> {
                     try {
-                        String filePath = downloadedImagesTempFolder + image.getFileId() + "________" + image.getName();
+                        String downloadedImageFilePath = downloadedImagesTempFolder + image.getFileId() + "________" + image.getName();
+                        File downloadedImageFile = new java.io.File(downloadedImageFilePath);
                         ImageIO.write(
                                 ImageIO.read(new ByteArrayInputStream(image.getImage())), "jpg",
-                                new java.io.File(filePath)
+                                downloadedImageFile
                         );
 
-                        java.io.File processedImage = new java.io.File(processedImagesTempFolder + image.getFileId() + "________" + image.getName());
-
-                        try (OutputStream outputStream = new FileOutputStream(processedImage)) {
+                        java.io.File processedImageFile = new java.io.File(processedImagesTempFolder + image.getFileId() + "________" + image.getName());
+                        try (OutputStream outputStream = new FileOutputStream(processedImageFile)) {
                             outputStream.write(
-                                    this.processImage(googleDriveWebClient, filePath, blackAndWhite, vingette, blurBackground)
+                                    this.processImage(googleDriveWebClient, downloadedImageFilePath, blackAndWhite, vingette, blurBackground)
                             );
-                            log.info("file uploaded: " + this.uploadFile(accessToken, resultFolderId, processedImage, image.getName()).getId());
+                            log.info("file uploaded: " + this.uploadFile(accessToken, resultFolderId, processedImageFile, image.getName()).getId());
                         } catch (Exception e) {
                             log.warning("fetching processed image error: " + e.getMessage());
+                        }
+
+                        if (downloadedImageFile.delete()) {
+                            log.info("downloaded image file " + image.getFileId() + " was cleared");
+                        }
+
+                        if (processedImageFile.delete()) {
+                            log.info("processed image file " + image.getFileId() + " was cleared");
                         }
 
                     } catch (Exception e) {
