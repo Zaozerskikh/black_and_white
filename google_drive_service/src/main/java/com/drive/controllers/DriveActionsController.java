@@ -1,16 +1,14 @@
 package com.drive.controllers;
 
-import com.drive.dto.File;
 import com.drive.enums.SessionKey;
 import com.drive.exceptions.DriveAuthException;
-import com.drive.services.GoogleDriveService;
+import com.drive.services.google_drive_service.GoogleDriveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @RestController
 public class DriveActionsController {
@@ -18,7 +16,7 @@ public class DriveActionsController {
     private GoogleDriveService googleDriveService;
 
     @RequestMapping("/files")
-    public ResponseEntity<List<File>> getFiles(HttpSession session) {
+    public ResponseEntity<String> getFiles(HttpSession session) {
         Object rawToken = session.getAttribute(SessionKey.GOOGLE_OAUTH_TOKEN.toString());
 
         if (rawToken == null) {
@@ -26,7 +24,7 @@ public class DriveActionsController {
         }
 
         return ResponseEntity.ok(googleDriveService.processBatch(
-                rawToken.toString(), "1hcUMwXphRUsOkkP7SKESGPbGJd5_kR6r", "test", true, true, true
+                rawToken.toString(), "1hcUMwXphRUsOkkP7SKESGPbGJd5_kR6r", "outputTEstFuck", true, false, true
         ));
     }
 }

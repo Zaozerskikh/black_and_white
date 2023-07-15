@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @ToString
-public class File implements Serializable {
+public class DriveFileDto implements Serializable {
     private String kind;
     private String id;
     private String name;

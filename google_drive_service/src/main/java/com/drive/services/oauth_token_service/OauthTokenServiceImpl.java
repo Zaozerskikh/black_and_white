@@ -1,4 +1,4 @@
-package com.drive.services;
+package com.drive.services.oauth_token_service;
 
 import com.drive.dto.OauthResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +10,14 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
-public class OauthTokenService {
+public class OauthTokenServiceImpl implements OauthTokenService {
     @Autowired
     private WebClient googleDriveTokenRequestSenderWebClient;
 
     @Value("${server.base_url}")
     private String baseUrl;
 
+    @Override
     public String fetchToken(String code, String scope) {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("code", code);

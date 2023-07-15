@@ -14,9 +14,9 @@ public class DriveFiles implements Serializable {
     private String kind;
     private String nextPageToken;
     private String incompleteSearch;
-    private List<File> files;
+    private List<DriveFileDto> files;
 
-    public DriveFiles(List<File> files) {
+    public DriveFiles(List<DriveFileDto> files) {
         this.files = files;
     }
 }
